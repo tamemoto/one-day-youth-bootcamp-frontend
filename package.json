@@ -7,10 +7,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "react-only:build": "yarn workspace react-only run build",
-    "react-only:dev": "yarn workspace react-only run dev",
-    "react-typescript:build": "yarn workspace react-typescript run build",
-    "react-typescript:dev": "yarn workspace react-typescript run dev"
   },
   "workspaces": [
     "course/*"

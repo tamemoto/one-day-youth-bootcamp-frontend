@@ -1,18 +1,18 @@
 import React from 'react';
 import { Task } from '..';
+import {useDispatch} from 'react-redux'
+import { addTask, clearTask } from '../features/Task/TaskSlice';
 
 type Props = {
   tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   newTaskLabel: string,
   setNewTaskLabel: React.Dispatch<React.SetStateAction<string>>
 }
 export const TaskForm: React.FC<Props> = ({
-  tasks,
-  setTasks,
   newTaskLabel,
   setNewTaskLabel
 }) => {
+  const dispatch = useDispatch()
   // フォームの値を保持する
   const handleNewTaskLabel = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTaskLabel(e.target.value)
@@ -21,13 +21,12 @@ export const TaskForm: React.FC<Props> = ({
   // Taskの登録
   const handleAddTask = () => {
     const newTask = {label: newTaskLabel, isDone: false}
-    setTasks([...tasks, newTask])
+    dispatch(addTask(newTask))
     setNewTaskLabel('')
   }
   // 完了したTaskを削除する
   const handleClearTasks = () => {
-    const newTasks = tasks.filter((task) => !task.isDone)
-    setTasks(newTasks)
+    dispatch(clearTask())
   }
 
   return (

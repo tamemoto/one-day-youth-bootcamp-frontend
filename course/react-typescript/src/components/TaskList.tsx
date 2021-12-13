@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { Task } from '..';
+import { setTasks, changedTasks } from '../features/Task/TaskSlice';
 type Props = {
   tasks: Task[],
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 }
-export const TaskList: React.FC<Props> = ({tasks, setTasks}) => {
+export const TaskList: React.FC<Props> = ({tasks}) => {
+  const dispatch = useDispatch()
   // Taskの状態を切り替える
   const handleCheckBox = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -13,17 +15,17 @@ export const TaskList: React.FC<Props> = ({tasks, setTasks}) => {
     const newTasks = tasks.map((task, _i) => {
       return _i === i ? {...task, isDone: e.target.checked}: task
     })
-    setTasks(newTasks)
+    dispatch(changedTasks(newTasks))
   }
 
   return (
     <>
     <ul>
       {tasks.map((task, i) => (
-        <>
-        <li key={`TODO-${i}`}>{task.label}</li>
-        <input type="checkbox" onChange={(e) => handleCheckBox(e, i)} />
-        </>
+        <Fragment key={`TODO-${i}`}>
+        <li>{task.label}</li>
+        <input type="checkbox" onChange={(e) => handleCheckBox(e,i)} />
+        </Fragment>
       ))}
     </ul>
     </>
